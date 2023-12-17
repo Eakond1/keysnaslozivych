@@ -17,6 +17,10 @@ int checking(string one, string two) {
             return 0;
         }
     } else {
+        if(one[0]=='-')
+            one= one.erase(0,1);
+        if(two[0]=='-')
+            two=two.erase(0,1);
         if (one.size() > two.size()) {
             return 1;
         } else if (two.size() > one.size()) {
@@ -49,17 +53,29 @@ string vychitanie(string one, string two) {
     int helper = 0;
     string result = "";
     bool addMinus = false;
-
-    if (checking(one, two) == 2) {
+    if (checking(one,two) == 2) {
             if(one[0] == '-' && two[0] == '-'){
                     two = two.erase(0, 1);
                     one = one.erase(0, 1);
                     result = vychitanie(two, one);
                     return result;
             }
-        result = vychitanie(two, one);
-        result = "-" + result;
+        else if(one[0] == '-' && two[0] != '-'){
+                one = one.erase(0, 1);
+                result = summa(one, two);
+                result = "-" + result;
         return result;
+        }
+        else if(one[0] != '-' && two[0] == '-'){
+            two = two.erase(0, 1);
+            result = summa(one, two);
+            return result;
+        }
+        else if(one[0] != '-' && two[0] != '-'){
+            result = vychitanie(two, one);
+            result = "-" + result;
+            return result;
+        }
     }
     bool van;
     if (one[0] == '-' && two[0] != '-') {
@@ -68,6 +84,7 @@ string vychitanie(string one, string two) {
         result = "-" + result;
         return result;
     } else if (one[0] != '-' && two[0] == '-') {
+
         two = two.erase(0, 1);
         result = summa(one, two);
         return result;
